@@ -72,7 +72,6 @@ resource "aws_lambda_function" "lambda" {
   environment {
     variables = {
       LAMBDA_VOLUME_TAG_NAMESPACE= "EbsBackup_TakeSnapshot_${var.lambda_volume_tag_namespace}"
-      LAMBDA_ARN="${aws_lambda_function.lambda.arn}"
     }
   }
 }

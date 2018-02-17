@@ -5,7 +5,9 @@ import time
 
 ec2 = boto3.client('ec2')
 volume_tag_namespace = os.environ['LAMBDA_VOLUME_TAG_NAMESPACE']
-lambda_arn = os.environ['LAMBDA_ARN']
+lambda_arn = context.invoked_function_arn
+lambda_function_name = context.invoked_function_name
+lambda_function_version = context.invoked_function_version
 
 def lambda_handler(event, context):
 
