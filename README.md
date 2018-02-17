@@ -44,3 +44,9 @@ Unix timestamp of when the snapshot started
 
 ### EbsBackup_LambdaARN
 The Lambda ARN that this snapshot was generated from
+
+### EbsBackup_LambdaFunctionName
+The lambda function name that took this snapshot
+
+### EbsBackup_LambdaFunctionVersion
+The lambda function version that took this snapshot
