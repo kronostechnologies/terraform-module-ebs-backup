@@ -51,6 +51,8 @@ def lambda_handler(event, context):
                 {'Key': 'EbsBackup_Datetime', 'Value': today_string},
                 {'Key': 'EbsBackup_Timestamp', 'Value': time.time()},
                 {'Key': 'EbsBackup_LambdaARN', 'Value': lambda_arn},
+                {'Key': 'EbsBackup_LambdaFunctionName', 'Value': lambda_function_name},
+                {'Key': 'EbsBackup_LambdaFunctionVersion', 'Value': lambda_function_version},
             ]
 
             ec2.create_tags(
