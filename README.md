@@ -36,7 +36,7 @@ Name of the volume
 ### EbsBackup_DeviceName
 Device name of the volume
 
-### EbsBackup_Datetime
+### EbsBackup_DatetimeUTC
 UTC Date of when the snapshot started
 
 ### EbsBackup_Timestamp

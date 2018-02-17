@@ -49,7 +49,7 @@ def lambda_handler(event, context):
                 {'Key': 'EbsBackup_InstanceName', 'Value': instance_name},
                 {'Key': 'EbsBackup_VolumeName', 'Value': volume_name},
                 {'Key': 'EbsBackup_DeviceName', 'Value': volume['Attachments'][0]['Device']},
-                {'Key': 'EbsBackup_Datetime', 'Value': today_string},
+                {'Key': 'EbsBackup_DatetimeUTC', 'Value': today_string},
                 {'Key': 'EbsBackup_Timestamp', 'Value': str(time.time())},
                 {'Key': 'EbsBackup_LambdaARN', 'Value': lambda_arn},
                 {'Key': 'EbsBackup_LambdaFunctionName', 'Value': lambda_function_name},
