@@ -45,6 +45,7 @@ def lambda_handler(event, context):
             snapshot_name = "%s %s" % (volume_name or volume_id, today_string)
             snapshot_tags = [
                 {'Key': 'Name', 'Value': snapshot_name},
+                {'Key': 'EbsBackup', 'Value': 'true'},
                 {'Key': 'EbsBackup_InstanceId', 'Value': instance_id},
                 {'Key': 'EbsBackup_InstanceName', 'Value': instance_name},
                 {'Key': 'EbsBackup_VolumeName', 'Value': volume_name},
