@@ -38,12 +38,6 @@ def lambda_handler(event, context):
 	    print 'Deleting {id}'.format(id=snapshot.id)
 	    snapshot.delete()
 
-    def find_tag(object_with_tags, tag_name):
-        for tag in object_with_tags['Tags']:
-            if tag['Key'] == tag_name:
-                return tag["Value"]
-        return nil
-
     snapshots = find_all_eligible_snapshots()
     for snapshot in snapshots:
         delete_snapshot(snapshot)
