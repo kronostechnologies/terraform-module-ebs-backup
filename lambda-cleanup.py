@@ -27,16 +27,16 @@ def lambda_handler(event, context):
         return snapshots
 
     def delete_snapshot(snapshot):
-      delete_time = datetime.utcnow() - timedelta(days=backup_days_to_keep)
-      print 'Deleting any snapshots older than {days} days'.format(days=backup_days_to_keep)
-      start_time = datetime.strptime(
-          snapshot.start_time,
-	  '%Y-%m-%dT%H:%M:%S.000Z'
-      )
+        delete_time = datetime.utcnow() - timedelta(days=backup_days_to_keep)
+        print 'Deleting any snapshots older than {days} days'.format(days=backup_days_to_keep)
+        start_time = datetime.strptime(
+            snapshot.start_time,
+	    '%Y-%m-%dT%H:%M:%S.000Z'
+        )
 
-      if start_time < delete_time:
-	  print 'Deleting {id}'.format(id=snapshot.id)
-	  snapshot.delete()
+        if start_time < delete_time:
+	    print 'Deleting {id}'.format(id=snapshot.id)
+	    snapshot.delete()
 
     def find_tag(object_with_tags, tag_name):
         for tag in object_with_tags['Tags']:
