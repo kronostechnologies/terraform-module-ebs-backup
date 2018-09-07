@@ -123,7 +123,7 @@ resource "aws_lambda_function" "lambda-cleanup" {
   }
 }
 
-resource "aws_lambda_permission" "cloudwatch" {
+resource "aws_lambda_permission" "cloudwatch-cleanup" {
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.lambda-cleanup.arn}"
