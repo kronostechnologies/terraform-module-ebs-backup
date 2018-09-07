@@ -132,7 +132,7 @@ resource "aws_lambda_permission" "cloudwatch-cleanup" {
 }
 
 resource "aws_cloudwatch_event_rule" "lambda-cleanup" {
-  name                = "ebs-backup-${var.lambda_cloudwatch_event_name}"
+  name                = "ebs-backup-cleanup-${var.lambda_cloudwatch_event_name}"
   schedule_expression = "${var.lambda_schedule_expression}"
 }
 
