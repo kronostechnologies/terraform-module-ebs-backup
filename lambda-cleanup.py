@@ -1,7 +1,7 @@
 import boto3
 import os
 from datetime import datetime
-import time
+from datetime import timedelta
 
 ec2 = boto3.client('ec2')
 volume_tag_namespace = os.environ['LAMBDA_VOLUME_TAG_NAMESPACE']
