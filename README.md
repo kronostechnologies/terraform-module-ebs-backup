@@ -5,6 +5,8 @@ AWS Terraform module to take a periodic snapshot based of ec2 volume based on ta
 The example below will create a lambda that will create a snapshot every 4 hours of
 all volume for which a tag named `EbsBackup_TakeSnapshot_Prod` exist and that it's
  value is either `yes`, `true`, `1` or `y`.
+It will also create a second lambda that will do a cleanup of the snapshots older than
+number of days taken from "LAMBDA_BACKUP_DAYS_TO_KEEP".
 
 ```
 module "ebs_backup" {
