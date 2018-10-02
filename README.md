@@ -6,7 +6,7 @@ The example below will create a lambda that will create a snapshot every 4 hours
 all volume for which a tag named `EbsBackup_TakeSnapshot_Prod` exist and that it's
  value is either `yes`, `true`, `1` or `y`.
 It will also create a second lambda that will do a cleanup of the snapshots older than
-number of days taken from "LAMBDA_BACKUP_DAYS_TO_KEEP".
+number of days taken from `lambda_backup_days_to_keep`.
 
 ```
 module "ebs_backup" {
