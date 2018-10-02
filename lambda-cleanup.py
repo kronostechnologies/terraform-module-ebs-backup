@@ -1,6 +1,6 @@
 import boto3
 import os
-import datetime
+from datetime import datetime
 import time
 
 ec2 = boto3.client('ec2')
