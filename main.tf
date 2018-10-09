@@ -114,7 +114,7 @@ resource "aws_lambda_function" "lambda-cleanup" {
   role             = "${aws_iam_role.lambda.arn}"
   handler          = "lambda-cleanup.lambda_handler"
   source_code_hash = "${data.archive_file.lambda-cleanup.output_base64sha256}"
-  timeout          = 3
+  timeout          = 300
   environment {
     variables = {
       LAMBDA_VOLUME_TAG_NAMESPACE= "EbsBackup_TakeSnapshot_${var.lambda_volume_tag_namespace}",
