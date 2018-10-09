@@ -40,6 +40,9 @@ def lambda_handler(event, context):
 
         if start_time < delete_time:
             print('Deleting {id}'.format(id=snapshot['SnapshotId']))
-            snapshot.delete()
+            ec2.delete_snapshot(
+                SnapshotId=snapshot['SnapshotId'],
+                DryRun=False
+            )
 
     find_and_delete_all_eligible_snapshots()
