@@ -2,6 +2,7 @@ import boto3
 import os
 from datetime import datetime
 from datetime import timedelta
+from datetime import timezone
 
 ec2 = boto3.client('ec2')
 volume_tag_namespace = os.environ['LAMBDA_VOLUME_TAG_NAMESPACE']
@@ -9,35 +10,36 @@ backup_days_to_keep = os.environ['LAMBDA_BACKUP_DAYS_TO_KEEP']
 
 def lambda_handler(event, context):
 
-    lambda_arn = context.invoked_function_arn
-    lambda_function_name = context.function_name
-    lambda_function_version = context.function_version
-
-    def find_all_eligible_snapshots():
-        print('Searching for snapshot with tag "%s"' % volume_tag_namespace)
-        paginator = ec2.get_paginator('describe_snapshots')
-        iterator = paginator.paginate(
+    def find_and_delete_all_eligible_snapshots():
+        print('Searching for volumes with tag "%s"' % volume_tag_namespace)
+        paginator = ec2.get_paginator('describe_volumes')
+        volume_iterator = paginator.paginate(
             Filters=[{'Name': 'tag:%s' % volume_tag_namespace, 'Values': ['yes', 'true', '1', 'y']}],
             DryRun=False
         )
-        snapshots = []
-        for page in iterator:
-            snapshots.extend(page['Snapshots'])
+        for volume_page in volume_iterator:
+            volumes = volume_page['Volumes']
 
-        return snapshots
+            for volume in volumes:
+                print('Searching for snapshot with volume id "%s"' % volume['VolumeId'])
+                paginator = ec2.get_paginator('describe_snapshots')
+                snapshot_iterator = paginator.paginate(
+                    Filters=[{'Name': 'volume-id', 'Values': [volume['VolumeId']]}],
+                    DryRun=False
+                )
+                for snapshot_page in snapshot_iterator:
+                    snapshots = snapshot_page['Snapshots']
+                    print('Deleting snapshots older than {days} days'.format(days=backup_days_to_keep))
+                    for snapshot in snapshots:
+                        delete_snapshot(snapshot)
 
     def delete_snapshot(snapshot):
-        delete_time = datetime.utcnow() - timedelta(days=backup_days_to_keep)
-        print 'Deleting any snapshots older than {days} days'.format(days=backup_days_to_keep)
-        start_time = datetime.strptime(
-            snapshot.start_time,
-	    '%Y-%m-%dT%H:%M:%S.000Z'
-        )
+        delete_time = datetime.utcnow() - timedelta(days=int(backup_days_to_keep))
+        start_time = snapshot['StartTime'].replace(tzinfo=timezone.utc)
+        delete_time = delete_time.replace(tzinfo=timezone.utc)
 
         if start_time < delete_time:
-	    print 'Deleting {id}'.format(id=snapshot.id)
-	    snapshot.delete()
+            print('Deleting {id}'.format(id=snapshot['SnapshotId']))
+            snapshot.delete()
 
-    snapshots = find_all_eligible_snapshots()
-    for snapshot in snapshots:
-        delete_snapshot(snapshot)
+    find_and_delete_all_eligible_snapshots()
