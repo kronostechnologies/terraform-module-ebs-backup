@@ -112,7 +112,7 @@ resource "aws_lambda_function" "lambda-cleanup" {
   filename         = "${path.module}/lambda-cleanup.zip"
   function_name    = "ebs-backup-cleanup-${var.lambda_function_name}"
   role             = "${aws_iam_role.lambda.arn}"
-  handler          = "lambda.lambda_handler"
+  handler          = "lambda-cleanup.lambda_handler"
   source_code_hash = "${data.archive_file.lambda-cleanup.output_base64sha256}"
   timeout          = 3
   environment {
