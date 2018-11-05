@@ -97,6 +97,21 @@ resource "aws_cloudwatch_event_target" "lambda" {
   arn       = "${aws_lambda_function.lambda.arn}"
 }
 
+resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
+  alarm_name                = "${var.lambda_function_name}-error"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "Errors"
+  namespace                 = "AWS/Lambda"
+  period                    = "3600"
+  statistic                 = "Average"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors error with lambda function '${var.lambda_function_name}'"
+  dimensions {
+    FunctionName = "${var.lambda_function_name}"
+  }
+}
+
 ##
 # LAMBDA FILE - CLEANUP
 ##
@@ -140,4 +155,19 @@ resource "aws_cloudwatch_event_target" "lambda-cleanup" {
   target_id = "ebs-backup-cleanup-${var.lambda_cloudwatch_event_name}"
   rule      = "${aws_cloudwatch_event_rule.lambda-cleanup.name}"
   arn       = "${aws_lambda_function.lambda-cleanup.arn}"
+}
+
+resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
+  alarm_name                = "cleanup-${var.lambda_function_name}-error"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "Errors"
+  namespace                 = "AWS/Lambda"
+  period                    = "3600"
+  statistic                 = "Low"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors error with lambda function 'cleanup-${var.lambda_function_name}"
+  dimensions {
+    FunctionName = "cleanup-${var.lambda_function_name}"
+  }
 }
