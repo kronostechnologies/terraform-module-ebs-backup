@@ -164,7 +164,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
   metric_name               = "Errors"
   namespace                 = "AWS/Lambda"
   period                    = "3600"
-  statistic                 = "Low"
+  statistic                 = "Average"
   threshold                 = "1"
   alarm_description         = "This metric monitors error with lambda function 'cleanup-${var.lambda_function_name}"
   dimensions {
