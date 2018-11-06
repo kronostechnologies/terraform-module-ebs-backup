@@ -98,7 +98,7 @@ resource "aws_cloudwatch_event_target" "lambda" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
-  alarm_name                = "ebs-backup-${var.lambda_function_name}-error"
+  alarm_name                = "${aws_lambda_function.lambda.function_name}-error"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "Errors"
@@ -106,10 +106,10 @@ resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
   period                    = "3600"
   statistic                 = "Average"
   threshold                 = "1"
-  alarm_description         = "This metric monitors error with lambda function '${var.lambda_function_name}'"
+  alarm_description         = "This metric monitors error with lambda function '${aws_lambda_function.lambda-cleanup.function_name}'"
   alarm_actions             = ["${var.lambda_alarm_actions}"]
   dimensions {
-    FunctionName = "${var.lambda_function_name}"
+    FunctionName = "${aws_lambda_function.lambda.function_name}"
   }
 }
 
@@ -159,7 +159,7 @@ resource "aws_cloudwatch_event_target" "lambda-cleanup" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
-  alarm_name                = "ebs-backup-cleanup-${var.lambda_function_name}-error"
+  alarm_name                = "${aws_lambda_function.lambda-cleanup.function_name}-error"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "Errors"
@@ -167,9 +167,9 @@ resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
   period                    = "3600"
   statistic                 = "Average"
   threshold                 = "1"
-  alarm_description         = "This metric monitors error with lambda function 'cleanup-${var.lambda_function_name}"
+  alarm_description         = "This metric monitors error with lambda function '${aws_lambda_function.lambda-cleanup.function_name}'"
   alarm_actions             = ["${var.lambda_alarm_actions}"]
   dimensions {
-    FunctionName = "cleanup-${var.lambda_function_name}"
+    FunctionName = "${aws_lambda_function.lambda-cleanup.function_name}"
   }
 }
