@@ -98,7 +98,7 @@ resource "aws_cloudwatch_event_target" "lambda" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
-  alarm_name                = "${var.lambda_function_name}-error"
+  alarm_name                = "ebs-backup-${var.lambda_function_name}-error"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "Errors"
@@ -158,7 +158,7 @@ resource "aws_cloudwatch_event_target" "lambda-cleanup" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
-  alarm_name                = "cleanup-${var.lambda_function_name}-error"
+  alarm_name                = "ebs-backup-cleanup-${var.lambda_function_name}-error"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "1"
   metric_name               = "Errors"
