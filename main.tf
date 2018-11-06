@@ -107,6 +107,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
   statistic                 = "Average"
   threshold                 = "1"
   alarm_description         = "This metric monitors error with lambda function '${var.lambda_function_name}'"
+  alarm_actions             = ["${var.lambda_alarm_actions}"]
   dimensions {
     FunctionName = "${var.lambda_function_name}"
   }
@@ -167,6 +168,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
   statistic                 = "Average"
   threshold                 = "1"
   alarm_description         = "This metric monitors error with lambda function 'cleanup-${var.lambda_function_name}"
+  alarm_actions             = ["${var.lambda_alarm_actions}"]
   dimensions {
     FunctionName = "cleanup-${var.lambda_function_name}"
   }

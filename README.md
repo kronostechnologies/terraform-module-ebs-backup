@@ -21,6 +21,9 @@ module "ebs_backup" {
 
   > It is extremely important to not use the same `lambda_*` values for different environment in the same aws account. If you do, the two module will destroy and recreate each other's ressources.
 
+## Monitoring
+Monitoring of backups are also included.
+
 
 ## Variables
 See `variables.tf` file
