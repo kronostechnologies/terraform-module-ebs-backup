@@ -22,7 +22,7 @@ module "ebs_backup" {
   > It is extremely important to not use the same `lambda_*` values for different environment in the same aws account. If you do, the two module will destroy and recreate each other's ressources.
 
 ## Monitoring
-Monitoring of backups are also included.
+Lambda functions included in this module comes with a cloudwatch metrics. You can add actions on these metric by specifying arn in the variable `lambda_alarm_actions`.
 
 
 ## Variables
