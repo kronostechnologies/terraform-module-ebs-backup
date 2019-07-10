@@ -16,6 +16,15 @@ module "ebs_backup" {
   lambda_cloudwatch_event_name = "rule"
   lambda_schedule_expression = "rate(4 hours)"
   lambda_volume_tag_namespace = "Prod"
+
+  additional_tags = {
+    "approval" = "joe@example.com"
+  }
+
+  tags = {
+    "approval" = "joe@example.com",
+    "owner"    = "opsteam"
+  }
 }
 ```
 
@@ -57,3 +66,9 @@ The lambda function name that took this snapshot
 
 ### EbsBackup_LambdaFunctionVersion
 The lambda function version that took this snapshot
+
+### additional_tags
+Additional tags to be added to all snapshot
+
+### tags
+Tags for each resouce created by this module

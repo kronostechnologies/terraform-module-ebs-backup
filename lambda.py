@@ -6,6 +6,8 @@ import time
 ec2 = boto3.client('ec2')
 volume_tag_namespace = os.environ['LAMBDA_VOLUME_TAG_NAMESPACE']
 
+additional_tags = dict(item.split("=") for item in (os.environ['LAMBDA_VOLUME_ADD_TAGS']).split(","))
+
 def lambda_handler(event, context):
 
     lambda_arn = context.invoked_function_arn
@@ -56,6 +58,9 @@ def lambda_handler(event, context):
                 {'Key': 'EbsBackup_LambdaFunctionName', 'Value': lambda_function_name},
                 {'Key': 'EbsBackup_LambdaFunctionVersion', 'Value': lambda_function_version},
             ]
+
+            for key, value in additional_tags.items():
+                snapshot_tags.append({'Key': key, 'Value': value})
 
             ec2.create_tags(
                 Resources=[snapshot['SnapshotId']],
