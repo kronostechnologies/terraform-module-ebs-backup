@@ -109,7 +109,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
   threshold                 = "1"
   alarm_description         = "This metric monitors error with lambda function '${aws_lambda_function.lambda-cleanup.function_name}'"
   alarm_actions             = ["${var.lambda_alarm_actions}"]
-  dimensions {
+  dimensions                = {
     FunctionName = "${aws_lambda_function.lambda.function_name}"
   }
 }
@@ -170,7 +170,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
   threshold                 = "1"
   alarm_description         = "This metric monitors error with lambda function '${aws_lambda_function.lambda-cleanup.function_name}'"
   alarm_actions             = ["${var.lambda_alarm_actions}"]
-  dimensions {
+  dimensions                = {
     FunctionName = "${aws_lambda_function.lambda-cleanup.function_name}"
   }
 }
