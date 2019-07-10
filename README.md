@@ -20,6 +20,11 @@ module "ebs_backup" {
   additional_tags = {
     "approval" = "joe@example.com"
   }
+
+  tags = {
+    "approval" = "joe@example.com",
+    "owner"    = "opsteam"
+  }
 }
 ```
 
@@ -61,3 +66,9 @@ The lambda function name that took this snapshot
 
 ### EbsBackup_LambdaFunctionVersion
 The lambda function version that took this snapshot
+
+### additional_tags
+Additional tags to be added to all snapshot
+
+### tags
+Tags for each resouce created by this module

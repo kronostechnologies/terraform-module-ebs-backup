@@ -24,3 +24,9 @@ variable "additional_tags" {
   type = "map"
   description = "Aditional tag tags to add"
 }
+
+variable "tags" {
+  default = {}
+  type = "map"
+  description = "Tags to be added to resources (CloudWatch Metrics and Lambda)"
+}

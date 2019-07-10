@@ -17,6 +17,7 @@ resource "aws_iam_role" "lambda" {
   ]
 }
 EOF
+  tags               = "${var.tags}"
 }
 
 resource "aws_iam_role_policy" "lambda" {
@@ -77,6 +78,7 @@ resource "aws_lambda_function" "lambda" {
       LAMBDA_VOLUME_ADD_TAGS="${join(",",formatlist("%s=%s",keys(var.additional_tags),values(var.additional_tags)))}"
     }
   }
+  tags             = "${var.tags}"
 }
 
 resource "aws_lambda_permission" "cloudwatch" {
@@ -90,6 +92,7 @@ resource "aws_lambda_permission" "cloudwatch" {
 resource "aws_cloudwatch_event_rule" "lambda" {
   name                = "ebs-backup-${var.lambda_cloudwatch_event_name}"
   schedule_expression = "${var.lambda_schedule_expression}"
+  tags                = "${var.tags}"
 }
 
 resource "aws_cloudwatch_event_target" "lambda" {
@@ -112,6 +115,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
   dimensions                = {
     FunctionName = "${aws_lambda_function.lambda.function_name}"
   }
+  tags                      = "${var.tags}"
 }
 
 ##
@@ -138,6 +142,7 @@ resource "aws_lambda_function" "lambda-cleanup" {
       LAMBDA_BACKUP_DAYS_TO_KEEP="${var.lambda_backup_days_to_keep}"
     }
   }
+  tags             = "${var.tags}"
 }
 
 resource "aws_lambda_permission" "cloudwatch-cleanup" {
@@ -151,6 +156,7 @@ resource "aws_lambda_permission" "cloudwatch-cleanup" {
 resource "aws_cloudwatch_event_rule" "lambda-cleanup" {
   name                = "ebs-backup-cleanup-${var.lambda_cloudwatch_event_name}"
   schedule_expression = "${var.lambda_schedule_expression}"
+  tags                = "${var.tags}"
 }
 
 resource "aws_cloudwatch_event_target" "lambda-cleanup" {
@@ -173,4 +179,5 @@ resource "aws_cloudwatch_metric_alarm" "lambda-cleanup-ebs-backup-error" {
   dimensions                = {
     FunctionName = "${aws_lambda_function.lambda-cleanup.function_name}"
   }
+  tags                      = "${var.tags}"
 }
