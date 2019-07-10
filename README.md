@@ -16,6 +16,10 @@ module "ebs_backup" {
   lambda_cloudwatch_event_name = "rule"
   lambda_schedule_expression = "rate(4 hours)"
   lambda_volume_tag_namespace = "Prod"
+
+  additional_tags = {
+    "approval" = "joe@example.com"
+  }
 }
 ```
 

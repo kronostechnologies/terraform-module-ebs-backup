@@ -19,3 +19,8 @@ variable "lambda_alarm_period" {
   default = 14400
   description = "The alarm period in seconds over which the alarm statistic is applied. This value should always be equals or greater than the lambda_schedule_expression"
 }
+variable "additional_tags" {
+  default = {}
+  type = "map"
+  description = "Aditional tag tags to add"
+}
