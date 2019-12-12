@@ -66,7 +66,7 @@ data "archive_file" "lambda" {
 }
 
 resource "aws_lambda_function" "lambda" {
-  runtime          = "python2.7"
+  runtime          = "python3.8"
   filename         = "${path.module}/lambda.zip"
   function_name    = "ebs-backup-${var.lambda_function_name}"
   role             = aws_iam_role.lambda.arn
@@ -126,7 +126,7 @@ data "archive_file" "lambda-cleanup" {
 }
 
 resource "aws_lambda_function" "lambda-cleanup" {
-  runtime          = "python3.6"
+  runtime          = "python3.8"
   filename         = "${path.module}/lambda-cleanup.zip"
   function_name    = "ebs-backup-cleanup-${var.lambda_function_name}"
   role             = aws_iam_role.lambda.arn
