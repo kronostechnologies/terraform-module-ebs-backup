@@ -108,7 +108,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda-ebs-backup-error" {
   period              = var.lambda_alarm_period
   statistic           = "Sum"
   threshold           = "1"
-  alarm_description   = "This metric monitors error with lambda function '${aws_lambda_function.lambda-cleanup.function_name}'"
+  alarm_description   = "This metric monitors error with lambda function '${aws_lambda_function.lambda.function_name}'"
   alarm_actions       = var.lambda_alarm_actions
   dimensions = {
     FunctionName = aws_lambda_function.lambda.function_name
